@@ -1,11 +1,31 @@
 # Simple Beam/Dataflow tests for Google Support
 
-Starting point was:
-https://beam.apache.org/get-started/quickstart-java/
+Case: 15826095
+Starting point for code: https://beam.apache.org/get-started/quickstart-java/
+
+## Overview
+We have encountered two separate but related issues:
+
+### ISSUE 1
+ * When trying to deploy a Dataflow template _without_ specifying a value for the input parameter we get an exception.
+ * We observe that the template is still deployed however.
+ * Launching the template with input also works. 
+
+### ISSUE 2
+ * Attempting to get rid of the exception produced in **ISSUE 1** by supplying a value for the input parameter.
+ * No exception is produced during template creation.
+ * Launching the template with different input values has no effect. It always uses the input value used during template creation.
+ 
+The steps below reproduce the two problems described above.
+
+Other notes:
+ * The GCS urls used for input are public.
+ * We have reproduced **ISSUE 2** in a completely new project. Please see [NEW-PROJECT.md](NEW-PROJECT.md)
 
 
 # Running locally
-* Providing inputFile value - WORKS
+* Just to check that the pipeline works.
+* Providing inputFile value - **WORKS**
 ```
 mvn compile exec:java \
      -Pdirect-runner \
@@ -15,7 +35,7 @@ mvn compile exec:java \
                   --outputFile=c:/temp/output.txt" 
 ```
 
-* Omitting inputFile value - DOES NOT WORK
+* Omitting inputFile value - **DOES NOT WORK**
 ```
 mvn compile exec:java \
      -Pdirect-runner \
@@ -25,8 +45,8 @@ mvn compile exec:java \
 ```
 
 
-# Running on Dataflow
-* Providing inputFile value - WORKS
+# Running on Dataflow directly (no template)
+* Providing inputFile value - **WORKS**
 ```
 mvn compile exec:java \
      -Pdataflow-runner \
@@ -37,9 +57,8 @@ mvn compile exec:java \
                   " 
 ```
 
-# Create and launch dataflow template and test A 
-
-* Create template WITHOUT inputFile - CAUSES EXCEPTION
+# Create and launch dataflow template (without input at template creation)
+* Create template WITHOUT inputFile - **CAUSES EXCEPTION**
 ```
 mvn compile exec:java \
      -Dexec.mainClass=org.apache.beam.examples.MyMinimalWordCount \
@@ -50,16 +69,16 @@ mvn compile exec:java \
                   " 
 ```
 
-* Launch with input file - WORKS
+* Launch with input file - **WORKS**
 ```
  gcloud beta dataflow jobs run testjob1 \
         --gcs-location gs://catalogue.unimarket.com/TESTING/templates/MyMinimalWordCountTemplate \
         --parameters inputFile=gs://catalogue.unimarket.com/TESTING/input/colours.txt,outputFile=gs://catalogue.unimarket.com/TESTING/output/output4.txt
 ```
 
-# Create and launch dataflow template and test B
+# Create and launch dataflow template (with input at template creation)
 
-* Create template WITH inputFile - WORKS no exception
+* Create template WITH inputFile - **WORKS no exception**
 ```
 mvn compile exec:java \
      -Dexec.mainClass=org.apache.beam.examples.MyMinimalWordCount \
@@ -71,7 +90,7 @@ mvn compile exec:java \
                   " 
 ```
 
-* Launch - DOES NOT USE PROVIDED INPUT
+* Launch - **DOES NOT USE PROVIDED INPUT**
 Output files contain names and NOT colours as expected
 ```
  gcloud beta dataflow jobs run testjob2 \
