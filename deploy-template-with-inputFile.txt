@@ -1,0 +1,93 @@
+$ mvn compile exec:java \
+>      -Dexec.mainClass=org.apache.beam.examples.MyMinimalWordCount \
+>      -Dexec.args="--runner=DataflowRunner \
+>                   --project=unimarket-catalogue \
+>                   --stagingLocation=gs://catalogue.unimarket.com/TESTING/staging \
+>                   --templateLocation=gs://catalogue.unimarket.com/TESTING/templates/MyMinimalWordCountTemplate \
+>                   --inputFile=gs://catalogue.unimarket.com/TESTING/input/names.txt \
+>                   "
+
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------< org.example:word-count-beam >---------------------
+[INFO] Building word-count-beam 0.1
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ word-count-beam ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\p\beam-examples\word-count-beam\src\main\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ word-count-beam ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- exec-maven-plugin:1.6.0:java (default-cli) @ word-count-beam ---
+May 23, 2018 8:14:15 AM org.apache.beam.sdk.extensions.gcp.options.GcpOptions$GcpTempLocationFactory tryCreateDefaultBucket
+INFO: No tempLocation specified, attempting to use default bucket: dataflow-staging-us-central1-933296556179
+May 23, 2018 8:14:17 AM org.apache.beam.sdk.util.RetryHttpRequestInitializer$LoggingHttpBackOffHandler handleResponse
+WARNING: Request failed with code 409, performed 0 retries due to IOExceptions, performed 0 retries due to unsuccessful status codes, HTTP framework says request can be retried, (caller responsible for retrying): https://www.googleapis.com/storage/v1/b?predefinedAcl=projectPrivate&predefinedDefaultObjectAcl=projectPrivate&project=unimarket-catalogue
+May 23, 2018 8:14:18 AM org.apache.beam.runners.dataflow.DataflowRunner fromOptions
+INFO: PipelineOptions.filesToStage was not specified. Defaulting to files from the classpath: will stage 109 files. Enable logging at DEBUG level to see which files will be staged.
+May 23, 2018 8:14:19 AM org.apache.beam.runners.dataflow.DataflowRunner run
+INFO: Executing pipeline on the Dataflow Service, which will have billing implications related to Google Compute Engine usage and other Google Cloud Services.
+May 23, 2018 8:14:19 AM org.apache.beam.runners.dataflow.util.PackageUtil stageClasspathElements
+INFO: Uploading 109 files from PipelineOptions.filesToStage to staging location to prepare for execution.
+May 23, 2018 8:14:24 AM org.apache.beam.runners.dataflow.util.PackageUtil stageClasspathElements
+INFO: Staging files complete: 109 files cached, 0 files newly uploaded
+May 23, 2018 8:14:25 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Read/Read as step s1
+May 23, 2018 8:14:26 AM org.apache.beam.sdk.io.FileBasedSource getEstimatedSizeBytes
+INFO: Filepattern gs://catalogue.unimarket.com/TESTING/input/names.txt matched 1 files with total size 64
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding ParDo(Anonymous) as step s2
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding FlatMapElements/FlatMap as step s3
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding Filter/ParDo(Anonymous) as step s4
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding Count.PerElement/Init/Map as step s5
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding Count.PerElement/Combine.perKey(Count)/GroupByKey as step s6
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding Count.PerElement/Combine.perKey(Count)/Combine.GroupedValues as step s7
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding MapElements/Map as step s8
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/RewindowIntoGlobal/Window.Assign as step s9
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/WriteUnshardedBundlesToTempFiles/WriteUnshardedBundles as step s10
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/WriteUnshardedBundlesToTempFiles/GroupUnwritten as step s11
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/WriteUnshardedBundlesToTempFiles/WriteUnwritten as step s12
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/WriteUnshardedBundlesToTempFiles/DropShardNum as step s13
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/WriteUnshardedBundlesToTempFiles/Flatten.PCollections as step s14
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/GatherTempFileResults/View.AsList/ParDo(ToIsmRecordForGlobalWindow) as step s15
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/GatherTempFileResults/View.AsList/CreateDataflowView as step s16
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/GatherTempFileResults/Reify.ReifyViewInGlobalWindow/Create.Values/Read(CreateSource) as step s17
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/GatherTempFileResults/Reify.ReifyViewInGlobalWindow/Reify.ReifyView/ParDo(Anonymous) as step s18
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/GatherTempFileResults/Reify.ReifyViewInGlobalWindow/Values/Values/Map as step s19
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowPipelineTranslator$Translator addStep
+INFO: Adding TextIO.Write/WriteFiles/FinalizeTempFileBundles/Finalize as step s20
+May 23, 2018 8:14:26 AM org.apache.beam.runners.dataflow.DataflowRunner run
+INFO: Staging pipeline description to gs://catalogue.unimarket.com/TESTING/staging
+May 23, 2018 8:14:27 AM org.apache.beam.runners.dataflow.util.PackageUtil tryStagePackage
+INFO: Uploading <54861 bytes, hash nuWbSEPxYj60X2cxVEzpZw> to gs://catalogue.unimarket.com/TESTING/staging/pipeline-nuWbSEPxYj60X2cxVEzpZw.pb
+Dataflow SDK version: 2.4.0
+May 23, 2018 8:14:28 AM org.apache.beam.runners.dataflow.DataflowRunner run
+INFO: Printed job specification to gs://catalogue.unimarket.com/TESTING/templates/MyMinimalWordCountTemplate
+May 23, 2018 8:14:28 AM org.apache.beam.runners.dataflow.DataflowRunner run
+INFO: Template successfully created.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20.262 s
+[INFO] Finished at: 2018-05-23T08:14:28+12:00
+[INFO] ------------------------------------------------------------------------
+
