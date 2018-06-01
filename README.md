@@ -1,7 +1,7 @@
 # Simple Beam/Dataflow tests for Google Support
 
-Case: 15826095
-Starting point for code: https://beam.apache.org/get-started/quickstart-java/
+Case: 15826095  
+Starting point for code: https://beam.apache.org/get-started/quickstart-java  
 
 ## Overview
 We have encountered two separate but related issues:
