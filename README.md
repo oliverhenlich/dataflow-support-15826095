@@ -10,6 +10,7 @@ We have encountered two separate but related issues:
  * When trying to deploy a Dataflow template _without_ specifying a value for the input parameter we get an exception.
  * We observe that the template is still deployed however.
  * Launching the template with input also works. 
+ * Example output showing exception [deploy-template-without-inputFile.txt](deploy-template-without-inputFile.txt).
 
 ### ISSUE 2
  * Attempting to get rid of the exception produced in **ISSUE 1** by supplying a value for the input parameter.
@@ -58,7 +59,8 @@ mvn compile exec:java \
 ```
 
 # Create and launch dataflow template (without input at template creation)
-* Create template WITHOUT inputFile - **CAUSES EXCEPTION**
+ * Create template WITHOUT inputFile - **CAUSES EXCEPTION**
+ * Example output showing exception [deploy-template-without-inputFile.txt](deploy-template-without-inputFile.txt).
 ```
 mvn compile exec:java \
      -Dexec.mainClass=org.apache.beam.examples.MyMinimalWordCount \
